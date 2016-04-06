@@ -1,0 +1,42 @@
+{
+  "name": "matrix-multiplication",
+  "description": "implements row by column multiplication",
+  "version": "0.0.0",
+  "homepage": "http://npm.im/matrix-multiplication",
+  "author": {
+    "name": "Gianluca Casati",
+    "url": "http://g14n.info"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "check-deps": "npm outdated",
+    "lint": "standard",
+    "postversion": "git push origin v${npm_package_version}; npm publish; git push origin master",
+    "test": "tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fibo/matrix-multiplication.git"
+  },
+  "keywords": [
+    "algebra"
+  ],
+  "bugs": {
+    "url": "https://github.com/fibo/matrix-multiplication/issues"
+  },
+  "pre-commit": [
+    "lint",
+    "test",
+    "check-deps"
+  ],
+  "devDependencies": {
+    "pre-commit": "^1.1.2",
+    "standard": "^6.0.4",
+    "tape": "^4.2.0"
+  },
+  "dependencies": {
+    "not-defined": "^1.0.0",
+    "static-props": "^0.2.0"
+  }
+}
