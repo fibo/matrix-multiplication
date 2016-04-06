@@ -11,7 +11,7 @@ test('square matrices 2x2', function (t) {
   var rightMatrix = [0, 1,
                      -1, 0]
 
-  var data = mul(leftMatrix, 2, rightMatrix, 2)
+  var data = mul(2, 2, leftMatrix, rightMatrix)
 
   t.deepEqual(data, [-3, 2,
                      -1, 1])
@@ -23,12 +23,12 @@ test('multiply 3x2 by 2x4', function (t) {
   var mul = matrixMultiplication()
 
   var leftMatrix = [2, 3,
-                     1, 1,
-                     1, 1]
+                    1, 1,
+                    1, 1]
   var rightMatrix = [0, 1, 1, 1,
-                     -1, 0, 2, 3]
+                    -1, 0, 2, 3]
 
-  var data = mul(leftMatrix, 3, rightMatrix, 4)
+  var data = mul(3, 4, leftMatrix, rightMatrix)
 
   t.deepEqual(data, [-3, 2, 8, 11,
                      -1, 1, 3, 4,
@@ -51,7 +51,7 @@ test('custom field', function (t) {
   var rightMatrix = [y, n,
                      n, y]
 
-  var data = mul(leftMatrix, 2, rightMatrix, 2)
+  var data = mul(2, 2, leftMatrix, rightMatrix)
 
   t.deepEqual(data, [n, y,
                      y, n])

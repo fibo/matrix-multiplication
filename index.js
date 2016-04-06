@@ -15,7 +15,8 @@ var error = {}
 
 staticProps(error)({
   leftNumCols: msg('leftNumCols does not divide leftMatrix.length'),
-  rightNumRows: msg('rightNumRows does not divide rightMatrix.length')
+  rightNumRows: msg('rightNumRows does not divide rightMatrix.length'),
+  cannotMultiplyMatrices: msg('Cannot multiply matrices, leftNumCols != rightNumRows')
 })
 
 function isInteger (n) {
@@ -50,15 +51,14 @@ function matrixMultiplication (add, mul) {
   else op.mul = mul
 
  /**
-  * @param {Object} shape
-  * @param {Number} shape[0] leftNumRows
-  * @param {Number} shape[1] rightNumCols
+  * @param {Number} leftNumRows
+  * @param {Number} rightNumCols
   * @param {Array} leftMatrix
   * @param {Array} rightMatrix
   *
   * @returns {Array} matrix
   */
-  return function (leftMatrix, leftNumRows, rightMatrix, rightNumCols) {
+  return function (leftNumRows, rightNumCols, leftMatrix, rightMatrix) {
     var leftNumCols = leftMatrix.length / leftNumRows
     var rightNumRows = rightMatrix.length / rightNumCols
 
@@ -72,7 +72,7 @@ function matrixMultiplication (add, mul) {
 
     // Check if matrices can be multiplied.
     if (leftNumCols !== rightNumRows) {
-      throw new TypeError('Left num cols != right num rows')
+      throw new TypeError(error.cannotMultiplyMatrices)
     }
 
     var commonIndex = leftNumCols
