@@ -36,6 +36,7 @@
     "tape": "^4.2.0"
   },
   "dependencies": {
+    "is-integer": "^1.0.6",
     "not-defined": "^1.0.0",
     "static-props": "^0.2.0"
   }

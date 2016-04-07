@@ -27,16 +27,22 @@ All code in the examples below is intended to be contained into a [single file](
 
 ## API
 
-### `var mul = matrixMultiplication([customAdd, customMul])`
+Optional custom operators are supported.
 
-* **@param** `{Function}` [customAdd] defaults to common `+`
-* **@param** `{Function}` [customMul] defaults to common `*`
+### `var mul = matrixMultiplication([customOperator])`
+
+* **@param** `{Object}` [customOperator]
+* **@param** `{Function}` [customOperator.addition] defaults to common `+`
+* **@param** `{Function}` [customOperator.multiplication] defaults to common `*`
 * **@returns** `{Function}` operator
 
-### `mul(leftNumRows, rightNumCols, leftMatrix, rightMatrix)`
+### `mul(middle, leftMatrix, rightMatrix)`
 
-* **@param** `{NUmber}` leftNumRows
-* **@param** `{NUmber}` rightNumCols
+The only requirement needed to multiply row by column an **a x b** matrix by
+an **c x d** matrix is that `b = c`, i.e. the middle indexes are equal.
+Actually two compatible matrices are **n x m** and **m x l**, let's call **m** the *middle*.
+
+* **@param** `{Number}` middle
 * **@param** `{Array}` leftMatrix
 * **@param** `{Array}` rightMatrix
 * **@returns** `{Array}` matrix
@@ -45,9 +51,8 @@ All code in the examples below is intended to be contained into a [single file](
 
 An object exposing the following error messages:
 
-* leftNumCols
-* rightNumCols
-* cannotMultiplyMatrices
+* leftMatrixNotCompatible
+* rightMatrixNotCompatible
 
 ## License
 

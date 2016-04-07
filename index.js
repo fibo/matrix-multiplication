@@ -1,3 +1,4 @@
+var isInteger = require('is-integer')
 var no = require('not-defined')
 var staticProps = require('static-props')
 
@@ -14,14 +15,9 @@ function msg (str) {
 var error = {}
 
 staticProps(error)({
-  leftNumCols: msg('leftNumCols does not divide leftMatrix.length'),
-  rightNumRows: msg('rightNumRows does not divide rightMatrix.length'),
-  cannotMultiplyMatrices: msg('Cannot multiply matrices, leftNumCols != rightNumRows')
+  leftMatrixNotCompatible: msg('Cannot multiply matrix at left side'),
+  rightMatrixNotCompatible: msg('Cannot multiply matrix at right side')
 })
-
-function isInteger (n) {
-  return (typeof n === 'number') && isFinite(n) && (n % 1 === 0)
-}
 
 function matrixToArrayIndex (i, j, numCols) {
   return j + i * numCols
@@ -34,55 +30,56 @@ function realMultiplication (a, b) { return a * b }
 /**
  * Multiply two matrices, row by column.
  *
- * @param {Function} [addition]
- * @param {Function} [multiplication]
+ * @param {Number} customOperator
+ * @param {Function} [customOperator.addition]
+ * @param {Function} [customOperator.multiplication]
  *
  * @returns {Function} operator
  */
 
-function matrixMultiplication (add, mul) {
+function matrixMultiplication (customOperator) {
   // operators
+
   var op = {}
 
-  if (no(add)) op.add = realAddition
-  else op.add = add
+  if (no(customOperator)) customOperator = {}
 
-  if (no(mul)) op.mul = realMultiplication
-  else op.mul = mul
+  var customAdd = customOperator.addition
+  var customMul = customOperator.multiplication
+
+  if (no(customAdd)) op.add = realAddition
+  else op.add = customAdd
+
+  if (no(customMul)) op.mul = realMultiplication
+  else op.mul = customMul
 
  /**
-  * @param {Number} leftNumRows
-  * @param {Number} rightNumCols
+  * @param {Number} middle
   * @param {Array} leftMatrix
   * @param {Array} rightMatrix
   *
   * @returns {Array} matrix
   */
-  return function (leftNumRows, rightNumCols, leftMatrix, rightMatrix) {
-    var leftNumCols = leftMatrix.length / leftNumRows
-    var rightNumRows = rightMatrix.length / rightNumCols
 
-    if (!isInteger(leftNumCols)) {
-      throw new TypeError(error.leftNumCols)
+  return function (middle, leftMatrix, rightMatrix) {
+    // Left num rows
+    var rows = leftMatrix.length / middle
+    // Right num cols
+    var cols = rightMatrix.length / middle
+
+    if (!isInteger(rows)) {
+      throw new TypeError(error.leftMatrixNotCompatible)
     }
 
-    if (!isInteger(rightNumRows)) {
-      throw new TypeError(error.rightNumRows)
+    if (!isInteger(cols)) {
+      throw new TypeError(error.rightMatrixNotCompatible)
     }
 
-    // Check if matrices can be multiplied.
-    if (leftNumCols !== rightNumRows) {
-      throw new TypeError(error.cannotMultiplyMatrices)
-    }
-
-    var commonIndex = leftNumCols
     var data = []
-    var rows = leftNumRows
-    var cols = rightNumCols
 
     for (var i = 0; i < rows; i++) {
       for (var j = 0; j < cols; j++) {
-        var leftIndex = matrixToArrayIndex(i, 0, commonIndex)
+        var leftIndex = matrixToArrayIndex(i, 0, middle)
         var rightIndex = matrixToArrayIndex(0, j, cols)
 
         var rightElement = rightMatrix[rightIndex]
@@ -90,8 +87,8 @@ function matrixMultiplication (add, mul) {
 
         var element = op.mul(leftElement, rightElement)
 
-        for (var k = 1; k < commonIndex; k++) {
-          leftIndex = matrixToArrayIndex(i, k, commonIndex)
+        for (var k = 1; k < middle; k++) {
+          leftIndex = matrixToArrayIndex(i, k, middle)
           rightIndex = matrixToArrayIndex(k, j, cols)
 
           rightElement = rightMatrix[rightIndex]
