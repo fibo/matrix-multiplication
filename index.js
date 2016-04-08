@@ -55,53 +55,60 @@ function matrixMultiplication (customOperator) {
 
  /**
   * @param {Number} middle
-  * @param {Array} leftMatrix
-  * @param {Array} rightMatrix
   *
-  * @returns {Array} matrix
+  * @returns {Function} mul
   */
 
-  return function (middle, leftMatrix, rightMatrix) {
-    // Left num rows
-    var rows = leftMatrix.length / middle
-    // Right num cols
-    var cols = rightMatrix.length / middle
+  return function (middle) {
+   /**
+    * @param {Array} leftMatrix
+    * @param {Array} rightMatrix
+    *
+    * @returns {Array} matrix
+    */
 
-    if (!isInteger(rows)) {
-      throw new TypeError(error.leftMatrixNotCompatible)
-    }
+    return function (leftMatrix, rightMatrix) {
+      // Left num rows
+      var rows = leftMatrix.length / middle
+      // Right num cols
+      var cols = rightMatrix.length / middle
 
-    if (!isInteger(cols)) {
-      throw new TypeError(error.rightMatrixNotCompatible)
-    }
-
-    var data = []
-
-    for (var i = 0; i < rows; i++) {
-      for (var j = 0; j < cols; j++) {
-        var leftIndex = matrixToArrayIndex(i, 0, middle)
-        var rightIndex = matrixToArrayIndex(0, j, cols)
-
-        var rightElement = rightMatrix[rightIndex]
-        var leftElement = leftMatrix[leftIndex]
-
-        var element = op.mul(leftElement, rightElement)
-
-        for (var k = 1; k < middle; k++) {
-          leftIndex = matrixToArrayIndex(i, k, middle)
-          rightIndex = matrixToArrayIndex(k, j, cols)
-
-          rightElement = rightMatrix[rightIndex]
-          leftElement = leftMatrix[leftIndex]
-
-          element = op.add(element, op.mul(rightElement, leftElement))
-        }
-
-        data.push(element)
+      if (!isInteger(rows)) {
+        throw new TypeError(error.leftMatrixNotCompatible)
       }
-    }
 
-    return data
+      if (!isInteger(cols)) {
+        throw new TypeError(error.rightMatrixNotCompatible)
+      }
+
+      var data = []
+
+      for (var i = 0; i < rows; i++) {
+        for (var j = 0; j < cols; j++) {
+          var leftIndex = matrixToArrayIndex(i, 0, middle)
+          var rightIndex = matrixToArrayIndex(0, j, cols)
+
+          var rightElement = rightMatrix[rightIndex]
+          var leftElement = leftMatrix[leftIndex]
+
+          var element = op.mul(leftElement, rightElement)
+
+          for (var k = 1; k < middle; k++) {
+            leftIndex = matrixToArrayIndex(i, k, middle)
+            rightIndex = matrixToArrayIndex(k, j, cols)
+
+            rightElement = rightMatrix[rightIndex]
+            leftElement = leftMatrix[leftIndex]
+
+            element = op.add(element, op.mul(rightElement, leftElement))
+          }
+
+          data.push(element)
+        }
+      }
+
+      return data
+    }
   }
 }
 
