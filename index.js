@@ -1,4 +1,4 @@
-var isInteger = require('is-integer')
+var isInt = require('is-integer')
 var no = require('not-defined')
 var staticProps = require('static-props')
 
@@ -23,9 +23,9 @@ function matrixToArrayIndex (i, j, numCols) {
   return j + i * numCols
 }
 
-function realAddition (a, b) { return a + b }
+function realAdd (a, b) { return a + b }
 
-function realMultiplication (a, b) { return a * b }
+function realMul (a, b) { return a * b }
 
 /**
  * Multiply two matrices, row by column.
@@ -40,18 +40,13 @@ function realMultiplication (a, b) { return a * b }
 function matrixMultiplication (customOperator) {
   // operators
 
-  var op = {}
-
   if (no(customOperator)) customOperator = {}
 
-  var customAdd = customOperator.addition
-  var customMul = customOperator.multiplication
+  var add = customOperator.addition
+  var mul = customOperator.multiplication
 
-  if (no(customAdd)) op.add = realAddition
-  else op.add = customAdd
-
-  if (no(customMul)) op.mul = realMultiplication
-  else op.mul = customMul
+  if (no(add)) add = realAdd
+  if (no(mul)) mul = realMul
 
  /**
   * @param {Number} middle
@@ -68,18 +63,16 @@ function matrixMultiplication (customOperator) {
     */
 
     return function (leftMatrix, rightMatrix) {
-      // Left num rows
-      var rows = leftMatrix.length / middle
-      // Right num cols
-      var cols = rightMatrix.length / middle
+      // Compatibilty check.
 
-      if (!isInteger(rows)) {
-        throw new TypeError(error.leftMatrixNotCompatible)
-      }
+      var rows = leftMatrix.length / middle  // left num rows
+      var cols = rightMatrix.length / middle // right num cols
 
-      if (!isInteger(cols)) {
-        throw new TypeError(error.rightMatrixNotCompatible)
-      }
+      if (!isInt(rows)) throw new TypeError(error.leftMatrixNotCompatible)
+
+      if (!isInt(cols)) throw new TypeError(error.rightMatrixNotCompatible)
+
+      // Compute result data.
 
       var data = []
 
@@ -91,7 +84,7 @@ function matrixMultiplication (customOperator) {
           var rightElement = rightMatrix[rightIndex]
           var leftElement = leftMatrix[leftIndex]
 
-          var element = op.mul(leftElement, rightElement)
+          var element = mul(leftElement, rightElement)
 
           for (var k = 1; k < middle; k++) {
             leftIndex = matrixToArrayIndex(i, k, middle)
@@ -100,7 +93,7 @@ function matrixMultiplication (customOperator) {
             rightElement = rightMatrix[rightIndex]
             leftElement = leftMatrix[leftIndex]
 
-            element = op.add(element, op.mul(rightElement, leftElement))
+            element = add(element, mul(rightElement, leftElement))
           }
 
           data.push(element)
