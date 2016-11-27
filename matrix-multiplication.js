@@ -1,8 +1,7 @@
-var isInt = require('is-integer')
-var no = require('not-defined')
-var staticProps = require('static-props')
+const no = require('not-defined')
+const staticProps = require('static-props')
 
-var pkg = require('./package.json')
+const pkg = require('./package.json')
 
 /**
  * Prepend package name to error message
@@ -12,20 +11,14 @@ function msg (str) {
   return pkg.name + ': ' + str
 }
 
-var error = {}
+const error = {}
 
 staticProps(error)({
   leftMatrixNotCompatible: msg('Cannot multiply matrix at left side'),
   rightMatrixNotCompatible: msg('Cannot multiply matrix at right side')
 })
 
-function matrixToArrayIndex (i, j, numCols) {
-  return j + i * numCols
-}
-
-function realAdd (a, b) { return a + b }
-
-function realMul (a, b) { return a * b }
+const matrixToArrayIndex = (i, j, numCols) => (j + i * numCols)
 
 /**
  * Multiply two matrices, row by column.
@@ -45,8 +38,9 @@ function matrixMultiplication (customOperator) {
   var add = customOperator.addition
   var mul = customOperator.multiplication
 
-  if (no(add)) add = realAdd
-  if (no(mul)) mul = realMul
+  // Default to operators over Reals.
+  if (no(add)) add = (a, b) => (a + b)
+  if (no(mul)) mul = (a, b) => (a * b)
 
  /**
   * @param {Number} middle
@@ -65,12 +59,14 @@ function matrixMultiplication (customOperator) {
     return function (leftMatrix, rightMatrix) {
       // Compatibilty check.
 
-      var rows = leftMatrix.length / middle  // left num rows
-      var cols = rightMatrix.length / middle // right num cols
+      const cols = rightMatrix.length / middle // right num cols
+      const rows = leftMatrix.length / middle  // left num rows
 
-      if (!isInt(rows)) throw new TypeError(error.leftMatrixNotCompatible)
+      const colsIsNotInteger = Math.floor(cols) !== cols
+      const rowsIsNotInteger = Math.floor(rows) !== rows
 
-      if (!isInt(cols)) throw new TypeError(error.rightMatrixNotCompatible)
+      if (colsIsNotInteger) throw new TypeError(error.rightMatrixNotCompatible)
+      if (rowsIsNotInteger) throw new TypeError(error.leftMatrixNotCompatible)
 
       // Compute result data.
 
@@ -105,6 +101,6 @@ function matrixMultiplication (customOperator) {
   }
 }
 
-staticProps(matrixMultiplication)({ error: error })
+staticProps(matrixMultiplication)({ error })
 
 module.exports = matrixMultiplication

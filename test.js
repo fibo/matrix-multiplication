@@ -1,20 +1,22 @@
-var test = require('tape')
-var matrixMultiplication = require('./index')
+/* eslint-disable indent */
 
-var error = matrixMultiplication.error
+const test = require('tape')
+const matrixMultiplication = require('matrix-multiplication')
 
-var mul = matrixMultiplication()(2)
+const error = matrixMultiplication.error
+
+const mul = matrixMultiplication()(2)
 
 test('square matrices 2x2', function (t) {
   t.plan(1)
 
-  var leftMatrix = [2, 3,
-                     1, 1]
+  const leftMatrix = [2, 3,
+                      1, 1]
 
-  var rightMatrix = [0, 1,
-                     -1, 0]
+  const rightMatrix = [0, 1,
+                      -1, 0]
 
-  var data = mul(leftMatrix, rightMatrix)
+  const data = mul(leftMatrix, rightMatrix)
 
   t.deepEqual(data, [-3, 2,
                      -1, 1])
@@ -23,12 +25,12 @@ test('square matrices 2x2', function (t) {
 test('multiply 3x2 by 2x4', function (t) {
   t.plan(1)
 
-  var matrix3x2 = [2, 3,
-                   1, 1,
-                   1, 1]
+  const matrix3x2 = [2, 3,
+                     1, 1,
+                     1, 1]
 
-  var matrix2x4 = [0, 1, 1, 1,
-                  -1, 0, 2, 3]
+  const matrix2x4 = [0, 1, 1, 1,
+                    -1, 0, 2, 3]
 
   t.deepEqual(mul(matrix3x2, matrix2x4), [-3, 2, 8, 11,
                                           -1, 1, 3, 4,
@@ -59,24 +61,25 @@ test('custom field', function (t) {
   function booleanAdd (a, b) { return a || b }
   function booleanMul (a, b) { return a && b }
 
-  var customOperators = {
+  const customOperators = {
     addition: booleanAdd,
     multiplication: booleanMul
   }
 
-  var mulB = matrixMultiplication(customOperators)(3)
+  const mulB = matrixMultiplication(customOperators)(3)
 
-  var y = true
-  var n = false
+  const y = true
+  const n = false
 
-  var matrix = [n, y, n,
-                y, n, y,
-                n, y, n]
-  var identity = [y, n, n,
-                  n, y, n,
-                  n, n, y]
+  const matrix = [n, y, n,
+                  y, n, y,
+                  n, y, n]
 
-  var data = mulB(matrix, identity)
+  const identity = [y, n, n,
+                    n, y, n,
+                    n, n, y]
+
+  const data = mulB(matrix, identity)
 
   t.deepEqual(data, [n, y, n,
                      y, n, y,
