@@ -32,7 +32,7 @@
   ],
   "devDependencies": {
     "pre-commit": "1.x",
-    "standard": "8.x",
+    "standard": "^9.0.2",
     "tape": "4.x"
   },
   "dependencies": {

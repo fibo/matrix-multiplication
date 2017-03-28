@@ -1,7 +1,7 @@
-const no = require('not-defined')
-const staticProps = require('static-props')
+var no = require('not-defined')
+var staticProps = require('static-props')
 
-const pkg = require('./package.json')
+var pkg = require('./package.json')
 
 /**
  * Prepend package name to error message
@@ -11,14 +11,14 @@ function msg (str) {
   return pkg.name + ': ' + str
 }
 
-const error = {}
+var error = {}
 
 staticProps(error)({
   leftMatrixNotCompatible: msg('Cannot multiply matrix at left side'),
   rightMatrixNotCompatible: msg('Cannot multiply matrix at right side')
 })
 
-const matrixToArrayIndex = (i, j, numCols) => (j + i * numCols)
+var matrixToArrayIndex = (i, j, numCols) => (j + i * numCols)
 
 /**
  * Multiply two matrices, row by column.
@@ -59,11 +59,11 @@ function matrixMultiplication (customOperator) {
     return function (leftMatrix, rightMatrix) {
       // Compatibilty check.
 
-      const cols = rightMatrix.length / middle // right num cols
-      const rows = leftMatrix.length / middle  // left num rows
+      var cols = rightMatrix.length / middle // right num cols
+      var rows = leftMatrix.length / middle  // left num rows
 
-      const colsIsNotInteger = Math.floor(cols) !== cols
-      const rowsIsNotInteger = Math.floor(rows) !== rows
+      var colsIsNotInteger = Math.floor(cols) !== cols
+      var rowsIsNotInteger = Math.floor(rows) !== rows
 
       if (colsIsNotInteger) throw new TypeError(error.rightMatrixNotCompatible)
       if (rowsIsNotInteger) throw new TypeError(error.leftMatrixNotCompatible)
