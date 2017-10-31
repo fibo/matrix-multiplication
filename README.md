@@ -2,14 +2,15 @@
 
 > implements row by column multiplication
 
-[![NPM version](https://badge.fury.io/js/matrix-multiplication.svg)](http://badge.fury.io/js/matrix-multiplication) [![Build Status](https://travis-ci.org/fibo/matrix-multiplication.svg?branch=master)](https://travis-ci.org/fibo/matrix-multiplication?branch=master) [![Dependency Status](https://gemnasium.com/fibo/matrix-multiplication.svg)](https://gemnasium.com/fibo/matrix-multiplication)
-
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
-
 [Installation](#installation) |
 [API](#api) |
 [Examples](#examples) |
 [License](#license)
+
+[![NPM version](https://badge.fury.io/js/matrix-multiplication.svg)](http://badge.fury.io/js/matrix-multiplication)
+[![Build Status](https://travis-ci.org/fibo/matrix-multiplication.svg?branch=master)](https://travis-ci.org/fibo/matrix-multiplication?branch=master)
+[![Dependency Status](https://gemnasium.com/fibo/matrix-multiplication.svg)](https://gemnasium.com/fibo/matrix-multiplication)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Installation
 

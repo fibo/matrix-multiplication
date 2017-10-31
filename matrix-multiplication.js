@@ -42,25 +42,25 @@ function matrixMultiplication (customOperator) {
   if (no(add)) add = (a, b) => (a + b)
   if (no(mul)) mul = (a, b) => (a * b)
 
- /**
-  * @param {Number} middle
-  *
-  * @returns {Function} mul
-  */
+  /**
+   * @param {Number} middle
+   *
+   * @returns {Function} mul
+   */
 
   return function (middle) {
-   /**
-    * @param {Array} leftMatrix
-    * @param {Array} rightMatrix
-    *
-    * @returns {Array} matrix
-    */
+    /**
+     * @param {Array} leftMatrix
+     * @param {Array} rightMatrix
+     *
+     * @returns {Array} matrix
+     */
 
     return function (leftMatrix, rightMatrix) {
       // Compatibilty check.
 
       var cols = rightMatrix.length / middle // right num cols
-      var rows = leftMatrix.length / middle  // left num rows
+      var rows = leftMatrix.length / middle // left num rows
 
       var colsIsNotInteger = Math.floor(cols) !== cols
       var rowsIsNotInteger = Math.floor(rows) !== rows
