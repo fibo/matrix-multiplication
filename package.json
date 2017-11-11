@@ -1,7 +1,7 @@
 {
   "name": "matrix-multiplication",
   "description": "implements row by column multiplication",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "homepage": "http://g14n.info/matrix-multiplication",
   "author": {
     "name": "Gianluca Casati",
