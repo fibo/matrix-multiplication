@@ -2,7 +2,7 @@
   "name": "matrix-multiplication",
   "description": "implements row by column multiplication",
   "version": "0.5.1",
-  "homepage": "http://npm.im/matrix-multiplication",
+  "homepage": "http://g14n.info/matrix-multiplication",
   "author": {
     "name": "Gianluca Casati",
     "url": "http://g14n.info"
@@ -37,6 +37,6 @@
   },
   "dependencies": {
     "not-defined": "^2.0.1",
-    "static-props": "^1.1.0"
+    "static-props": "^1.1.1"
   }
 }
